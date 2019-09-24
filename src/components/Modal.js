@@ -24,8 +24,15 @@ export default function Modal({ trigger, children, ...props }) {
       <Box {...props} cursor="pointer" onClick={open} textTransform="uppercase">
         {trigger}
       </Box>
-      <ChakraModal isOpen={isOpen} onClose={close}>
-        {children}
+      <ChakraModal
+        top="0"
+        style={{ maxHeight: `calc(100vh - 4rem - 56px)` }}
+        isOpen={isOpen}
+        onClose={close}
+      >
+        <ModalBody p="2" overflowY="auto">
+          {children}
+        </ModalBody>
       </ChakraModal>
     </>
   );
