@@ -142,7 +142,7 @@ function WarmupContent({ sets, liftName }) {
   });
 
   return (
-    <Box px="2" py="3" fontSize="xl" fontWeight="semibold">
+    <Box px="2" py="3" fontSize="xl" fontWeight="semibold" color="gray.200">
       <Flex alignItems="baseline" justifyContent="space-between">
         <Text fontSize="xs" fontWeight="black" textTransform="uppercase">
           option
@@ -159,7 +159,7 @@ function WarmupContent({ sets, liftName }) {
         fontSize="md"
         fontWeight="black"
         letterSpacing="wider"
-        color="gray.900"
+        color="yellow.500"
         gap={2}
         gridTemplateColumns="1fr 5fr 6fr"
       >
@@ -170,7 +170,7 @@ function WarmupContent({ sets, liftName }) {
 
       {warmupSets.map(({ id, percent, reps, sets }, i) => {
         const weight = Math.round(warmupWeight * percent);
-        console.log({ weight });
+        // console.log({ weight });
         return (
           <Grid key={id} my="4" gap={2} gridTemplateColumns="1fr 5fr 6fr">
             <Text
@@ -219,13 +219,13 @@ function WorkContent({ liftName, sets }) {
   }
 
   return (
-    <Box px="2" py="3" fontSize="xl" fontWeight="semibold">
+    <Box px="2" py="3" fontSize="xl" fontWeight="semibold" color="gray.200">
       <Grid
         my="2"
         fontSize="md"
         fontWeight="black"
         letterSpacing="wider"
-        color="gray.900"
+        color="yellow.500"
         gap={2}
         gridTemplateColumns="1fr 3fr 5fr"
       >
@@ -234,7 +234,7 @@ function WorkContent({ liftName, sets }) {
         <Text textAlign="center">PLATES</Text>
       </Grid>
 
-      {sets.map(({ id, reps, rpe, sets }, i) => {
+      {sets.map(({ id, reps, rpe, sets, percent }, i) => {
         const worksetWeight = getWorksetWeight({ rpe, reps, oneRM });
 
         return (
@@ -246,7 +246,7 @@ function WorkContent({ liftName, sets }) {
                   {getRoundedLbs(worksetWeight)}
                 </Box>
                 <Box as="span">
-                  {reps}@{rpe}% x {sets}
+                  {reps}@{rpe} x {sets}
                 </Box>
               </Flex>
             </Text>
