@@ -3,7 +3,7 @@ import { changeOneRepMax } from "features/one-rep-max/slice";
 import Select from "./Select";
 import { useSelector, useDispatch } from "react-redux";
 import { getRoundedLbs, getOneRepMax, getWorksetWeight } from "../utils";
-import { Grid, Text } from "@chakra-ui/core";
+import { Grid, Text, Flex } from "@chakra-ui/core";
 
 export default function OneRMRow(props) {
   const { name, id, rpe, reps, shortName, weight, oneRM } = props;
@@ -33,7 +33,9 @@ export default function OneRMRow(props) {
 
   return (
     <Grid my="2" gridGap="2" gridTemplateColumns="1fr 1fr 1fr 1fr 1fr">
-      <Text textAlign="center">{shortName}</Text>
+      <Flex align="center" justify="center">
+        <Text textAlign="center">{shortName}</Text>
+      </Flex>
       <Select
         name="weight"
         defaultValue={weight}
@@ -52,7 +54,9 @@ export default function OneRMRow(props) {
         defaultValue={rpe}
         items={rpeArray}
       />
-      <Text textAlign="center">{oneRM}</Text>
+      <Flex align="center" justify="center">
+        <Text textAlign="center">{oneRM}</Text>
+      </Flex>
     </Grid>
   );
 }

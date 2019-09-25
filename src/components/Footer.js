@@ -52,21 +52,20 @@ export default function Footer() {
 function SettingsContent() {
   const oneRepMax = useSelector(state => state.oneRepMax);
   return (
-    <Box width="full" fontWeight="semibold">
-      <Flex align="center" justify="center">
+    <Box width="full" fontWeight="bold" color="gray.300">
+      <Flex align="center" justify="center" mb="4">
         <Text fontSize="xs" fontWeight="black" textTransform="uppercase">
           estimated one rep max
         </Text>
         <Text ml="2" fontSize="xs" fontWeight="black" textTransform="uppercase">
           (lbs)
         </Text>
-        <Switch isDisabled ml="3" color="red" />
+        <Switch ml="3" color="yellow" />
       </Flex>
-      <Box as="hr" my="2" />
       <Grid
         fontWeight="black"
         letterSpacing="wider"
-        color="gray.900"
+        color="yellow.500"
         gap={2}
         gridTemplateColumns="1fr 1fr 1fr 1fr 1fr"
       >
@@ -80,29 +79,27 @@ function SettingsContent() {
       {oneRepMax.map(props => {
         return <OneRMRow key={props.id} {...props} />;
       })}
-
       <Variants />
-      <Box as="hr" my="2" />
-
-      <Flex>
-        <Text mx="auto" fontSize="xs" color="gray.500">
+      <Flex mt="6">
+        <Text mx="auto" fontSize="xs" color="gray.300">
           <Flex align="center">
             <Box as="span">Made with</Box>
             <Box
               h="4"
               mx="1"
               as="img"
-              src="https://img.icons8.com/material/24/000000/like--v1.png"
+              src="https://img.icons8.com/material/24/f6ad55/like--v1.png"
             />{" "}
             <Box as="span">for lifting by</Box>
             <Link
-              color="gray.900"
+              color="yellow.500"
               ml="1"
               fontWeight="black"
+              textDecoration="underline"
               href="https://imkarolis.com/"
               target="_blank"
             >
-              karolis
+              imkarolis
             </Link>
           </Flex>
         </Text>
@@ -117,8 +114,7 @@ function Variants() {
 
   return (
     <>
-      <Box as="hr" my="2" />
-      <Flex>
+      <Flex mt="8" mb="4" align="center">
         <Text
           mx="auto"
           fontWeight="black"
@@ -129,13 +125,12 @@ function Variants() {
         </Text>
       </Flex>
 
-      <Box as="hr" my="2" />
       <Grid
         fontSize="md"
         fontWeight="black"
         letterSpacing="wider"
-        color="teal.500"
-        my="2"
+        color="yellow.500"
+        // mb="2"
         gridGap="2"
         gridTemplateColumns="1.25fr 1fr 1fr 0.8fr 0.5fr"
       >
@@ -150,12 +145,19 @@ function Variants() {
       })}
       {isActive && <NewVariant />}
 
-      <IconButton
+      <Button
+        mt="1"
+        h="12"
+        variant="outline"
+        variantColor="yellow"
         w="full"
-        icon="add"
+        leftIcon="add"
+        _hover={{ bg: "yellow.500", color: "gray.800" }}
         disabled={isActive}
         onClick={() => dispatch(setActiveTrue())}
-      />
+      >
+        Add Variant
+      </Button>
     </>
   );
 }
@@ -193,6 +195,7 @@ function VariantRow({ id, name, main, percent, oneRM }) {
     <Grid my="2" gridGap="2" gridTemplateColumns="1.25fr 1fr 1fr 0.8fr 0.5fr">
       <Flex flexDir="column" justifyContent="center">
         <Editable
+          // focusBorderColor="yellow.500"
           defaultValue={name}
           name="name"
           onChange={value => {
@@ -234,7 +237,7 @@ function IconContainer({ type, onClick }) {
   return (
     <Icon
       name={type}
-      color="gray.300"
+      color="yellow.500"
       size="10"
       onClick={onClick}
       cursor="pointer"

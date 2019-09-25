@@ -25,6 +25,8 @@ export default function Modal({ trigger, children, ...props }) {
         {trigger}
       </Box>
       <ChakraModal
+        mt="1"
+        bg="gray.700"
         top="0"
         style={{ maxHeight: `calc(100vh - 4rem - 56px)` }}
         isOpen={isOpen}

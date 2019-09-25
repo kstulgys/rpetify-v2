@@ -16,7 +16,7 @@ export default function SetRow(props) {
   }
 
   return (
-    <Grid key={setId} my="1" gridGap="2" gridTemplateColumns="1fr 1fr 1fr">
+    <Grid key={setId} my="2" gridGap="2" gridTemplateColumns="1fr 1fr 1fr">
       <Select
         name="reps"
         onChange={e => handleWorksetChange({ e, workoutId, setId })}

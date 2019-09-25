@@ -85,10 +85,12 @@ export default function NewVariant() {
   return (
     <Grid my="2" gridGap="2" gridTemplateColumns="1.25fr 1fr 1fr 0.8fr 0.5fr">
       <Input
+        color="gray.800"
+        fontWeight="bold"
         textAlign="center"
-        focusBorderColor={isNameValid ? "blue" : "red"}
-        _hover={{ borderColor: isNameValid ? "gray.300" : "red.300" }}
-        borderColor={isNameValid ? "gray.300" : "red.300"}
+        focusBorderColor={isNameValid ? "yellow" : "red"}
+        _hover={{ borderColor: isNameValid ? "black" : "red.300" }}
+        borderColor={isNameValid ? "black" : "red.300"}
         defaultValue={name}
         onChange={e => setName(e.target.value)}
       />

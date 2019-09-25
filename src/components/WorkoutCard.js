@@ -30,7 +30,7 @@ export default function WorkoutCard({ id: workoutId, sets, name: liftName }) {
       my="1"
       mb="3"
       fontSize="lg"
-      fontWeight="semibold"
+      fontWeight="bold"
       bg="gray.700"
     >
       <WorkoutHeader workoutId={workoutId} liftName={liftName} />
@@ -50,7 +50,7 @@ function WorkoutHeader({ workoutId, liftName }) {
   const liftNames = [...mainLiftNames, ...variantsNames];
 
   return (
-    <Flex align="center" justify="space-between" pb="2">
+    <Flex align="center" justify="space-between">
       <Box>
         <IconButton
           icon="close"
@@ -82,8 +82,8 @@ function WorkoutHeader({ workoutId, liftName }) {
 
 function WorkoutBody({ sets, workoutId }) {
   return (
-    <>
-      <Flex fontWeight="black" color="yellow.500" justify="space-around">
+    <Box mt="6">
+      <Flex mb="2" fontWeight="black" color="gray.300" justify="space-around">
         <Text>REPS</Text>
         <Text>RPE</Text>
         <Text>SETS</Text>
@@ -99,16 +99,16 @@ function WorkoutBody({ sets, workoutId }) {
           />
         );
       })}
-    </>
+    </Box>
   );
 }
 
 function WorkoutFooter({ liftName, sets }) {
   return (
     <Flex
+      mt="3"
       fontWeight="black"
       color="yellow.500"
-      mt="2"
       justifyContent="space-evenly"
     >
       <Modal trigger="warmup">

@@ -5,6 +5,7 @@ export default function Select({ items, ...restProps }) {
   return (
     <Box
       {...restProps}
+      color="gray.800"
       rounded="md"
       as="select"
       h="10"
