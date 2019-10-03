@@ -1,6 +1,6 @@
 import React from "react";
 import { removeWorkout, removeSet, changeSet } from "features/workouts/slice";
-import Select from "./Select";
+import Select from "components/Select";
 import { Grid } from "@chakra-ui/core";
 import { useDispatch } from "react-redux";
 
@@ -21,18 +21,18 @@ export default function SetRow(props) {
         name="reps"
         onChange={e => handleWorksetChange({ e, workoutId, setId })}
         defaultValue={reps}
-        items={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}
+        useReps
       />
       <Select
         name="rpe"
         onChange={e => handleWorksetChange({ e, workoutId, setId })}
         defaultValue={rpe}
-        items={[6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10]}
+        useRpe
       />
       <Select
         name="sets"
         defaultValue={sets}
-        items={["-", 1, 2, 3, 4, 5]}
+        useSets
         onChange={e => {
           if (e.target.value === "-") {
             if (setIdx === 0 && arr.length === 1) {

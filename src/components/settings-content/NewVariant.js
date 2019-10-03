@@ -1,42 +1,20 @@
 import React, { useState, useEffect } from "react";
-import {
-  changeVariantOneRepMax,
-  addVariant,
-  removeVariant,
-  setActiveTrue,
-  setActiveFalse
-} from "features/variants/slice";
+import { addVariant, setActiveFalse } from "features/variants/slice";
 import { useSelector, useDispatch } from "react-redux";
-import { getOneRepMax, getRoundedLbs } from "utils";
-import Select from "./Select";
-import Modal from "./Modal";
-import {
-  Box,
-  Text,
-  Flex,
-  Stack,
-  IconButton,
-  Grid,
-  Switch,
-  Button,
-  Link,
-  Input,
-  Icon,
-  Editable,
-  EditableInput,
-  EditablePreview
-} from "@chakra-ui/core";
+import Select from "components/Select";
+import { Text, Flex, Grid, Input, Icon } from "@chakra-ui/core";
 
 export default function NewVariant() {
   const dispatch = useDispatch();
   const [name, setName] = useState("");
-  const [main, setMain] = useState("");
-  const [percent, setPercent] = useState(0);
+  const [main, setMain] = useState("SQ");
+  const [percent, setPercent] = useState(80);
   const [newOneRM, setNewOneRM] = useState(null);
   const [fieldsValid, setValid] = useState(false);
   const [isNameValid, setNameValid] = useState(true);
   const oneRepMax = useSelector(state => state.oneRepMax);
   const { variants } = useSelector(state => state.variants);
+  const units = useSelector(state => state.units);
 
   function handleAddVariant() {
     dispatch(addVariant({ name, main, percent, oneRM: newOneRM }));
@@ -62,25 +40,20 @@ export default function NewVariant() {
     );
     setNameValid(!nameExist);
 
-    if (
-      name &&
-      main &&
-      percent &&
-      !nameExist &&
-      main !== "-" &&
-      percent !== "-"
-    ) {
+    if (name && main && percent && !nameExist && main !== "-" && !!percent) {
       setValid(true);
     } else {
       setValid(false);
     }
   }, [name, main, percent, variants]);
 
-  const getLiftNames = () => {
-    let names = oneRepMax.map(({ shortName }) => shortName);
-    names.unshift("-");
-    return names;
-  };
+  let liftNamesArray = oneRepMax.map(({ shortName }) => ({
+    value: shortName,
+    text: shortName
+  }));
+
+  const oneRMByUnit =
+    units === "lbs" ? newOneRM : Math.round(newOneRM * 0.453592);
 
   return (
     <Grid my="2" gridGap="2" gridTemplateColumns="1.25fr 1fr 1fr 0.8fr 0.5fr">
@@ -95,17 +68,19 @@ export default function NewVariant() {
         onChange={e => setName(e.target.value)}
       />
       <Select
-        defaultValue="-"
-        items={getLiftNames()}
+        defaultValue={main}
+        customArray={liftNamesArray}
         onChange={e => setMain(e.target.value)}
       />
       <Select
-        defaultValue="-"
-        items={getPercentages()}
-        onChange={e => setPercent(Number(e.target.value))}
+        defaultValue={percent}
+        usePercentages
+        onChange={e => {
+          setPercent(Number(e.target.value));
+        }}
       />
       <Flex flexDir="column" justifyContent="center" alignItems="center">
-        <Text>{newOneRM || "-"}</Text>
+        <Text>{oneRMByUnit || "-"}</Text>
       </Flex>
       <Flex flexDir="column" justifyContent="center" alignItems="center">
         <Flex align="center">
@@ -124,14 +99,14 @@ export default function NewVariant() {
   );
 }
 
-function getPercentages() {
-  let arr = Array.from({ length: 200 }, (x, i) => {
-    if (i + 1 > 9) {
-      return i + 1;
-    }
-    return null;
-  }).filter(Boolean);
+// function getPercentages() {
+//   let arr = Array.from({ length: 200 }, (x, i) => {
+//     if (i + 1 > 9) {
+//       return { value: i + 1, text: i + 1 };
+//     }
+//     return null;
+//   }).filter(Boolean);
 
-  arr.unshift("-");
-  return arr;
-}
+//   // arr.unshift("-");
+//   return arr;
+// }

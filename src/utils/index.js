@@ -1,3 +1,70 @@
+export function getOneRepMax({ rpe, reps, weight }) {
+  const p = lookupTable[rpe][reps];
+  return Math.round(weight / p);
+}
+export function getWorksetWeight({ rpe, reps, oneRM }) {
+  // console.log(oneRM);
+  const p = lookupTable[rpe][reps];
+  return Math.round(oneRM * p);
+}
+
+export function getPlatesOnBar({ weight, units, barbellWeight }) {
+  // console.log(weight, units, barbellWeight);
+  const roundedWeight = getRoundedWeight(weight);
+
+  const lbsPlates = [45, 35, 25, 10, 5, 2.5];
+  const kgPlates = [25, 20, 15, 10, 5, 2.5, 1.5];
+
+  const platesArray = units === "lbs" ? lbsPlates : kgPlates;
+  let oneSideWeight = (roundedWeight - barbellWeight) / 2;
+
+  let res = platesArray.reduce((acc, next) => {
+    const platesQuantity = oneSideWeight / next;
+    const isWholePlates = platesQuantity >= 1 && platesQuantity % 1 === 0;
+    const isAtLeastOneWholePlate =
+      platesQuantity >= 1 && platesQuantity % 1 !== 0;
+
+    if (isWholePlates) {
+      oneSideWeight -= next * platesQuantity;
+      return (acc += getString(next, platesQuantity));
+    } else if (isAtLeastOneWholePlate) {
+      oneSideWeight -= next * Math.floor(platesQuantity);
+      return (acc += getString(next, platesQuantity));
+    }
+    return acc;
+  }, "");
+
+  return res.slice(0, -1); //e.g 45x3/25/10/2.5
+}
+
+function getString(next, platesQuantity) {
+  return `${next}${
+    Math.floor(platesQuantity) > 1 ? `x${Math.floor(platesQuantity)}` : ""
+  }/`;
+}
+
+export function getRoundedWeight(weight) {
+  let weightRounded = Math.round(weight);
+
+  const weightLastDigit = weightRounded % 10;
+  if (weightLastDigit !== 0 || weightLastDigit !== 5) {
+    if (weightLastDigit === 1 || weightLastDigit === 6) {
+      weightRounded -= 1;
+    }
+    if (weightLastDigit === 2 || weightLastDigit === 7) {
+      weightRounded -= 2;
+    }
+    if (weightLastDigit === 3 || weightLastDigit === 8) {
+      weightRounded += 2;
+    }
+    if (weightLastDigit === 4 || weightLastDigit === 9) {
+      weightRounded += 1;
+    }
+  }
+
+  return weightRounded;
+}
+
 const lookupTable = {
   10: [
     null,
@@ -136,69 +203,3 @@ const lookupTable = {
   //   0.572
   // ]
 };
-
-export function getOneRepMax({ rpe, reps, weight }) {
-  const p = lookupTable[rpe][reps];
-  return Math.round(weight / p);
-}
-export function getWorksetWeight({ rpe, reps, oneRM }) {
-  const p = lookupTable[rpe][reps];
-  return Math.round(oneRM * p);
-}
-
-export function getPlatesOnBar({
-  weight,
-  units = "lbs",
-  barbellWeight = "45"
-}) {
-  const lbsPlates = ["45", "35", "25", "10", "5", "2.5"];
-  const kgPlates = ["25", "20", "15", "10", "5", "2.5", "1.5"];
-  const platesArray = units === "lbs" ? lbsPlates : kgPlates;
-  let oneSideWeight = Math.round((weight - barbellWeight) / 2);
-
-  let res = platesArray.reduce((acc, next) => {
-    const platesQuantity = oneSideWeight / next;
-    const isWholePlates = platesQuantity % 1 === 0;
-    const isAtLeastOneWholePlate =
-      platesQuantity % 1 !== 0 && platesQuantity > 1;
-
-    if (isWholePlates) {
-      oneSideWeight -= next * platesQuantity;
-      return (acc += getString(next, platesQuantity));
-    } else if (isAtLeastOneWholePlate) {
-      oneSideWeight -= next * Math.floor(platesQuantity);
-      return (acc += getString(next, platesQuantity));
-    }
-    return acc;
-  }, "");
-
-  return res.slice(0, -1); //e.g 45x3/25/10/2.5
-}
-
-function getString(next, platesQuantity) {
-  return `${next}${
-    Math.floor(platesQuantity) > 1 ? `x${Math.floor(platesQuantity)}` : ""
-  }/`;
-}
-
-export function getRoundedLbs(weight) {
-  let weightRounded = Math.round(weight);
-
-  const weightLastDigit = weightRounded % 10;
-  if (weightLastDigit !== 0 || weightLastDigit !== 5) {
-    if (weightLastDigit === 1 || weightLastDigit === 6) {
-      weightRounded -= 1;
-    }
-    if (weightLastDigit === 2 || weightLastDigit === 7) {
-      weightRounded -= 2;
-    }
-    if (weightLastDigit === 3 || weightLastDigit === 8) {
-      weightRounded += 2;
-    }
-    if (weightLastDigit === 4 || weightLastDigit === 9) {
-      weightRounded += 1;
-    }
-  }
-
-  return weightRounded;
-}
