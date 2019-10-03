@@ -17,18 +17,23 @@ export default function WarmupContent({ sets, liftName }) {
   const warmups = useSelector(state => state.warmups);
   const units = useSelector(state => state.units);
   const warmupSets = warmups.list[warmups.current].sets;
+  // console.log("liftnameFromWarmup", liftName);
 
-  let oneRM;
-  let oneRMExist = oneRepMax.find(({ name }) => name === liftName);
-  if (oneRMExist) {
-    oneRM = oneRMExist.oneRM;
-  } else {
-    oneRM = variants.find(({ name }) => name === liftName).oneRM;
-  }
+  const foundOneRM = () => {
+    let mainOneRM = oneRepMax.find(({ name }) => name === liftName);
+    if (mainOneRM) {
+      return mainOneRM.oneRM;
+    }
+    let variantOneRM = variants.find(({ name }) => name === liftName);
+    if (variantOneRM) {
+      return variantOneRM.oneRM;
+    }
+  };
+
   const warmupWeight = getWorksetWeight({
     rpe: sets[0].rpe,
     reps: sets[0].reps,
-    oneRM
+    oneRM: foundOneRM()
   });
 
   const warmupWeightByUnit =

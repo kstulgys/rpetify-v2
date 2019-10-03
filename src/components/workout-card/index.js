@@ -27,7 +27,7 @@ export default function WorkoutCard({ id: workoutId, sets, name: liftName }) {
       bg="gray.700"
     >
       <WorkoutHeader workoutId={workoutId} liftName={liftName} />
-      <WorkoutBody sets={sets} workoutId={workoutId} />
+      <WorkoutBody sets={sets} liftName={liftName} workoutId={workoutId} />
       <WorkoutFooter liftName={liftName} sets={sets} />
     </Stack>
   );
@@ -37,15 +37,17 @@ function WorkoutHeader({ workoutId, liftName }) {
   const dispatch = useDispatch();
   const oneRepMax = useSelector(state => state.oneRepMax);
   const { variants } = useSelector(state => state.variants);
+  
+  const mainLiftNames = () =>
+    oneRepMax.map(({ name }) => ({ value: name, text: name })).filter(Boolean);
+  const variantsNames = () =>
+    variants
+      .map(({ name }) => ({ value: name, text: name }))
+      .filter(Boolean)
+      .filter(item => item.value !== "");
 
-  const mainLiftNames = oneRepMax
-    .map(({ name }) => ({ value: name, text: name }))
-    .filter(Boolean);
-  const variantsNames = variants
-    .map(({ name }) => ({ value: name, text: name }))
-    .filter(Boolean);
+  const liftNames = [...mainLiftNames(), ...variantsNames()];
 
-  const liftNames = [...mainLiftNames, ...variantsNames];
 
   return (
     <Flex align="center" justify="space-between">
@@ -78,7 +80,7 @@ function WorkoutHeader({ workoutId, liftName }) {
   );
 }
 
-function WorkoutBody({ sets, workoutId }) {
+function WorkoutBody({ sets, workoutId, liftName }) {
   return (
     <Box mt="6">
       <Flex mb="2" fontWeight="black" color="gray.300" justify="space-around">
@@ -88,13 +90,16 @@ function WorkoutBody({ sets, workoutId }) {
       </Flex>
       {sets.map((props, setIdx, arr) => {
         return (
-          <SetRow
-            key={props.id}
-            {...props}
-            workoutId={workoutId}
-            setIdx={setIdx}
-            arr={arr}
-          />
+          liftName && (
+            <SetRow
+              key={props.id}
+              {...props}
+              workoutId={workoutId}
+              setIdx={setIdx}
+              arr={arr}
+              liftName={liftName}
+            />
+          )
         );
       })}
     </Box>

@@ -7,8 +7,13 @@ const variantsSlice = createSlice({
   reducers: {
     changeVariantOneRepMax(state, action) {
       const { id, name, value } = action.payload;
-      const variant = state.variants.find(v => v.id === id);
-      variant[name] = value;
+      if (value === "") {
+        state.variants.filter(v => v.name !== "");
+        return state;
+      } else {
+        const variant = state.variants.find(v => v.id === id);
+        variant[name] = value;
+      }
     },
     addVariant(state, action) {
       state.variants.push({ ...action.payload, id: uuid() });

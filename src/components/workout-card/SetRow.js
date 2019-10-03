@@ -5,7 +5,16 @@ import { Grid } from "@chakra-ui/core";
 import { useDispatch } from "react-redux";
 
 export default function SetRow(props) {
-  const { reps, rpe, sets, id: setId, setIdx, arr, workoutId } = props;
+  const {
+    reps,
+    rpe,
+    sets,
+    id: setId,
+    setIdx,
+    arr,
+    workoutId,
+    liftName
+  } = props;
 
   const dispatch = useDispatch();
 

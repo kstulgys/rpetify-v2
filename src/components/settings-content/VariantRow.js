@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { changeVariantOneRepMax, removeVariant } from "features/variants/slice";
+import {
+  removeWorkoutByName,
+  addSet,
+  changeWorkoutName
+} from "features/workouts/slice";
 import { useSelector, useDispatch } from "react-redux";
 import { getOneRepMax, getRoundedLbs } from "utils";
 import Select from "components/Select";
@@ -19,7 +24,9 @@ export default function VariantRow({ id, name, main, percent, oneRM }) {
   const units = useSelector(state => state.units);
 
   function handleRemoveVariant() {
+    dispatch(removeWorkoutByName({ name }))
     dispatch(removeVariant({ id }));
+
   }
 
   useEffect(() => {
@@ -32,9 +39,7 @@ export default function VariantRow({ id, name, main, percent, oneRM }) {
   }, [percent, main, id, dispatch, oneRM, oneRepMax]);
 
   function handleChange(e) {
-    // console.log(e.target.value);
     const { name, value } = e.target;
-    if (value === "-") return;
     const currentValue = name === "percent" ? Number(value) : value;
     dispatch(changeVariantOneRepMax({ id, name, value: currentValue }));
   }
@@ -49,23 +54,8 @@ export default function VariantRow({ id, name, main, percent, oneRM }) {
   return (
     <Grid my="2" gridGap="2" gridTemplateColumns="1.25fr 1fr 1fr 0.8fr 0.5fr">
       <Flex flexDir="column" justifyContent="center">
-        <Editable
-          // focusBorderColor="yellow.500"
-          defaultValue={name}
-          name="name"
-          onChange={value => {
-            dispatch(
-              changeVariantOneRepMax({ id, name: "name", value: Number(value) })
-            );
-          }}
-          textAlign="center"
-          lineHeight="none"
-        >
-          <EditablePreview />
-          <EditableInput h="10" />
-        </Editable>
+      <Text textAlign="center">{name}</Text>
       </Flex>
-
       <Select
         name="main"
         onChange={handleChange}
@@ -83,7 +73,16 @@ export default function VariantRow({ id, name, main, percent, oneRM }) {
       </Flex>
       <Flex flexDir="column" justify="center" align="center">
         <Flex align="center">
-          <Icon name="small-close" size="6" onClick={handleRemoveVariant} />
+          <Icon
+            name="small-close"
+            size="6"
+            onClick={() => {
+              var conf = window.confirm("Are you sure You want to delete this item ?");
+              if (conf === true) {
+                handleRemoveVariant();
+              }
+            }}
+          />
         </Flex>
       </Flex>
     </Grid>

@@ -30,6 +30,9 @@ const workoutsSlice = createSlice({
       const { workoutId, value } = action.payload;
       const workout = state.find(w => w.id === workoutId);
       workout.name = value;
+    },
+    removeWorkoutByName(state, action){
+      return state.filter(w => w.name !== action.payload.name);
     }
   }
 });
@@ -40,7 +43,8 @@ export const {
   addSet,
   removeSet,
   changeSet,
-  changeWorkoutName
+  changeWorkoutName,
+  removeWorkoutByName
 } = workoutsSlice.actions;
 export default workoutsSlice.reducer;
 
@@ -62,20 +66,20 @@ function getNewLift() {
         id: uuid(),
         reps: 6,
         rpe: 6.5,
-        sets: 1
-      },
-      {
-        id: uuid(),
-        reps: 6,
-        rpe: 7,
-        sets: 1
-      },
-      {
-        id: uuid(),
-        reps: 6,
-        rpe: 8,
         sets: 3
       }
+      // {
+      //   id: uuid(),
+      //   reps: 6,
+      //   rpe: 7,
+      //   sets: 1
+      // },
+      // {
+      //   id: uuid(),
+      //   reps: 6,
+      //   rpe: 8,
+      //   sets: 3
+      // }
     ]
   };
 }
