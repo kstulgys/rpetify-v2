@@ -1,22 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { changeVariantOneRepMax, removeVariant } from "features/variants/slice";
-import {
-  removeWorkoutByName,
-  addSet,
-  changeWorkoutName
-} from "features/workouts/slice";
+import { removeWorkoutByName } from "features/workouts/slice";
 import { useSelector, useDispatch } from "react-redux";
-import { getOneRepMax, getRoundedLbs } from "utils";
+import { getOneRMByUnit } from "utils";
+
 import Select from "components/Select";
-import {
-  Text,
-  Flex,
-  Grid,
-  Icon,
-  Editable,
-  EditableInput,
-  EditablePreview
-} from "@chakra-ui/core";
+import { Text, Flex, Grid, Icon } from "@chakra-ui/core";
 
 export default function VariantRow({ id, name, main, percent, oneRM }) {
   const dispatch = useDispatch();
@@ -24,9 +13,8 @@ export default function VariantRow({ id, name, main, percent, oneRM }) {
   const units = useSelector(state => state.units);
 
   function handleRemoveVariant() {
-    dispatch(removeWorkoutByName({ name }))
+    dispatch(removeWorkoutByName({ name }));
     dispatch(removeVariant({ id }));
-
   }
 
   useEffect(() => {
@@ -49,12 +37,10 @@ export default function VariantRow({ id, name, main, percent, oneRM }) {
     text: shortName
   }));
 
-  const oneRMByUnit = units === "lbs" ? oneRM : Math.round(oneRM * 0.453592);
-
   return (
     <Grid my="2" gridGap="2" gridTemplateColumns="1.25fr 1fr 1fr 0.8fr 0.5fr">
       <Flex flexDir="column" justifyContent="center">
-      <Text textAlign="center">{name}</Text>
+        <Text textAlign="center">{name}</Text>
       </Flex>
       <Select
         name="main"
@@ -69,7 +55,7 @@ export default function VariantRow({ id, name, main, percent, oneRM }) {
         usePercentages
       />
       <Flex flexDir="column" justifyContent="center">
-        <Text textAlign="center">{oneRMByUnit}</Text>
+        <Text textAlign="center">{getOneRMByUnit(units, oneRM)}</Text>
       </Flex>
       <Flex flexDir="column" justify="center" align="center">
         <Flex align="center">
@@ -77,7 +63,9 @@ export default function VariantRow({ id, name, main, percent, oneRM }) {
             name="small-close"
             size="6"
             onClick={() => {
-              var conf = window.confirm("Are you sure You want to delete this item ?");
+              var conf = window.confirm(
+                "Are you sure You want to delete this item ?"
+              );
               if (conf === true) {
                 handleRemoveVariant();
               }

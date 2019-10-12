@@ -5,10 +5,12 @@ const unitsSlice = createSlice({
   initialState: "lbs",
   reducers: {
     changeToLbs(state, action) {
-      return (state = "lbs");
+      state = "lbs";
+      return state;
     },
     changeToKg(state, action) {
-      return (state = "kg");
+      state = "kg";
+      return state;
     }
   }
 });

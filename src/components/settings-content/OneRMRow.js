@@ -2,18 +2,20 @@ import React, { useState, useEffect } from "react";
 import { changeOneRepMax } from "features/one-rep-max/slice";
 import Select from "components/Select";
 import { useSelector, useDispatch } from "react-redux";
-import { getRoundedLbs, getOneRepMax, getWorksetWeight } from "utils";
+import {
+  getRoundedWeight,
+  getOneRepMax,
+  getRoundedWeightKg,
+  getKgWithDecimal,
+  getOneRMByUnit
+} from "utils";
 import { Grid, Text, Flex } from "@chakra-ui/core";
 
 export default function OneRMRow(props) {
   const { name, id, rpe, reps, shortName, weight, oneRM } = props;
-
+  const units = useSelector(state => state.units);
   const dispatch = useDispatch();
 
-  const units = useSelector(state => state.units);
-  const state = useSelector(state => state);
-
-  // console.log(state);
   const handleChange = e => {
     const { name, value } = e.target;
     dispatch(changeOneRepMax({ id, name, value: Number(value) }));
@@ -24,7 +26,11 @@ export default function OneRMRow(props) {
     dispatch(changeOneRepMax({ id, name: "oneRM", value: Number(value) }));
   }, [id, rpe, reps, weight, dispatch]);
 
-  const oneRMByUnit = units === "lbs" ? oneRM : Math.round(oneRM * 0.453592);
+  const getDefaultWeight = () => {
+    return units === "lbs"
+      ? getRoundedWeight(weight)
+      : getRoundedWeightKg(weight);
+  };
 
   return (
     <Grid my="2" gridGap="2" gridTemplateColumns="1fr 1fr 1fr 1fr 1fr">
@@ -33,14 +39,15 @@ export default function OneRMRow(props) {
       </Flex>
       <Select
         name="weight"
-        defaultValue={weight}
+        // defaultValue={defaultWeight}
+        selected={getDefaultWeight()}
         onChange={handleChange}
         useWeights
       />
       <Select name="reps" onChange={handleChange} defaultValue={reps} useReps />
       <Select name="rpe" onChange={handleChange} defaultValue={rpe} useRpe />
       <Flex align="center" justify="center">
-        <Text textAlign="center">{oneRMByUnit}</Text>
+        <Text textAlign="center">{getOneRMByUnit(units, oneRM)}</Text>
       </Flex>
     </Grid>
   );

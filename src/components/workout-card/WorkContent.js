@@ -1,5 +1,10 @@
 import React from "react";
-import { getRoundedWeight, getPlatesOnBar, getWorksetWeight } from "utils";
+import {
+  getRoundedWeight,
+  getPlatesOnBar,
+  getWorksetWeight,
+  getRoundedWeightKg
+} from "utils";
 import { useSelector, useDispatch } from "react-redux";
 import { Box, Text, Flex, Grid } from "@chakra-ui/core";
 
@@ -38,7 +43,9 @@ export default function WorkContent({ liftName, sets }) {
         const weight = getWorksetWeight({ rpe, reps, oneRM });
 
         const workWeightByUnit =
-          units === "lbs" ? weight : Math.round(weight * 0.453592);
+          units === "lbs"
+            ? getRoundedWeight(weight)
+            : getRoundedWeightKg(weight);
 
         return (
           <Grid key={id} my="4" gap={2} gridTemplateColumns="1fr 3fr 5fr">
@@ -46,7 +53,7 @@ export default function WorkContent({ liftName, sets }) {
             <Text textAlign="center">
               <Flex flexDirection="column">
                 <Box as="span" lineHeight="0" fontSize="xs">
-                  {getRoundedWeight(workWeightByUnit)}
+                  {workWeightByUnit}
                 </Box>
                 <Box as="span">
                   {reps}@{rpe} x {sets}
@@ -55,7 +62,7 @@ export default function WorkContent({ liftName, sets }) {
             </Text>
             <Text textAlign="center">
               {getPlatesOnBar({
-                weight: workWeightByUnit,
+                weight,
                 units,
                 barbellWeight
               })}

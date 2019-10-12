@@ -98,15 +98,3 @@ export default function NewVariant() {
     </Grid>
   );
 }
-
-// function getPercentages() {
-//   let arr = Array.from({ length: 200 }, (x, i) => {
-//     if (i + 1 > 9) {
-//       return { value: i + 1, text: i + 1 };
-//     }
-//     return null;
-//   }).filter(Boolean);
-
-//   // arr.unshift("-");
-//   return arr;
-// }

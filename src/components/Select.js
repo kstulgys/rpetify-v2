@@ -9,6 +9,8 @@ export default function Select({
   useSets,
   usePercentages,
   customArray,
+  selected,
+  name,
   ...restProps
 }) {
   const units = useSelector(state => state.units);
@@ -47,15 +49,26 @@ export default function Select({
 
   const percentagesArray = getPercentages();
 
-  const getWeightsArray = () => {
-    return Array.from({ length: 800 }, (_, i) => {
-      if (i + 1 >= 100 && ((i + 1) % 10 === 5 || (i + 1) % 10 === 0)) {
-        const text = units === "lbs" ? i + 1 : Math.round((i + 1) * 0.453592);
-        return { value: i + 1, text: text };
-      }
-      return null;
-    }).filter(Boolean);
-  };
+  const getWeightsArray = () =>
+    Array(1000)
+      .fill(null)
+      .reduce((acc, next, i) => {
+        if (
+          units === "lbs" &&
+          i + 1 > 44 &&
+          ((i + 1) % 10 === 5 || (i + 1) % 10 === 0)
+        ) {
+          return [...acc, { text: i + 1, value: i + 1 }];
+        } else if (units === "kg" && i > 20) {
+          return [
+            ...acc,
+            { text: i + 1, value: Math.round((i + 1) / 0.453592) },
+            { text: i + 1.5, value: Math.round((i + 1.5) / 0.453592) }
+          ];
+        }
+
+        return acc;
+      }, []);
 
   const weightsArray = getWeightsArray();
 
@@ -79,6 +92,7 @@ export default function Select({
       color="gray.800"
       rounded="md"
       as="select"
+      name={name}
       h="10"
       bg="gray.200"
       w="full"
@@ -87,7 +101,13 @@ export default function Select({
     >
       {items.map(({ value, text }, i) => {
         return (
-          <Box key={i} value={value} as="option" w="full">
+          <Box
+            key={i}
+            value={value}
+            selected={text === selected ? true : false}
+            as="option"
+            w="full"
+          >
             {text}
           </Box>
         );

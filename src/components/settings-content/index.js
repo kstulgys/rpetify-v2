@@ -25,21 +25,23 @@ function SettingsHeader() {
   const units = useSelector(state => state.units);
 
   return (
-    <Flex align="center" justify="center" mb="4">
-      <Text fontSize="xs" fontWeight="black" textTransform="uppercase">
-        estimated one rep max
-      </Text>
-      <Text ml="2" fontSize="xs" fontWeight="black" textTransform="uppercase">
-        ({units})
-      </Text>
-      <Switch
-        ml="3"
-        color="yellow"
-        onChange={() => {
-          units === "lbs" ? dispatch(changeToKg()) : dispatch(changeToLbs());
-        }}
-      />
-    </Flex>
+    <Box mb="4" mt="1">
+      <Flex mx="auto" align="center" justify="center">
+        <Text fontSize="xs" fontWeight="black" textTransform="uppercase">
+          estimated one rep max
+        </Text>
+        <Text mx="2" fontSize="xs" fontWeight="black" textTransform="uppercase">
+          ({units})
+        </Text>
+        <Switch
+          isChecked={units === "lbs" ? true : false}
+          color="yellow"
+          onChange={() => {
+            units === "lbs" ? dispatch(changeToKg()) : dispatch(changeToLbs());
+          }}
+        />
+      </Flex>
+    </Box>
   );
 }
 
@@ -63,29 +65,49 @@ function OneRMHeader() {
 
 function SettingsFooter() {
   return (
-    <Flex mt="6">
-      <Text mx="auto" fontSize="xs" color="gray.300">
-        <Flex align="center">
-          <Box as="span">Made with</Box>
-          <Box
-            h="4"
-            mx="1"
-            as="img"
-            src="https://img.icons8.com/material/24/f6ad55/like--v1.png"
-          />{" "}
-          <Box as="span">for lifting by</Box>
-          <Link
-            color="yellow.500"
-            ml="1"
-            fontWeight="black"
-            textDecoration="underline"
-            href="https://imkarolis.com/"
-            target="_blank"
-          >
-            imkarolis
+    <Box mt="6">
+      <Box
+        fontWeight="normal"
+        fontSize="xs"
+        color="gray.300"
+        textAlign="center"
+      >
+        <Text mx="auto">
+          Make sure you take screenshots of your one rep max weights. This app
+          is improving and there might be some breaking changes in the future.
+        </Text>
+        <Text mx="auto">
+          If you find any bugs or have feature request e.g. custom plates on the
+          bar, or custom warmup sets, please send me an email at
+          <Link color="yellow.500" ml="1" textDecoration="underline">
+            karolis.stulgys@gmail.com
           </Link>
-        </Flex>
-      </Text>
-    </Flex>
+        </Text>
+      </Box>
+      <Flex mt="6">
+        <Text mx="auto" fontSize="xs" color="gray.300">
+          <Flex align="center">
+            <Box as="span">Made with</Box>
+            <Box
+              h="4"
+              mx="1"
+              as="img"
+              src="https://img.icons8.com/material/24/f6ad55/like--v1.png"
+            />{" "}
+            <Box as="span">by</Box>
+            <Link
+              color="yellow.500"
+              ml="1"
+              fontWeight="black"
+              textDecoration="underline"
+              href="https://imkarolis.com/"
+              target="_blank"
+            >
+              imkarolis
+            </Link>
+          </Flex>
+        </Text>
+      </Flex>
+    </Box>
   );
 }

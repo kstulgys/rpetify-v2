@@ -7,11 +7,6 @@ import Footer from "components/footer";
 
 export default function App() {
   const { workouts } = useSelector(state => state);
-  const  {variants}  = useSelector(state => state.variants);
-
-  // const workoutsWithName = workouts.filter(w=>w.name !== "")
-console.log({workouts})
-console.log({variants})
 
   return (
     <Flex style={{ minHeight: "100vh" }} flexDirection="column" bg="gray.800">
