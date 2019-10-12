@@ -1,5 +1,10 @@
 import React from "react";
-import { getRoundedWeight, getPlatesOnBar, getWorksetWeight } from "utils";
+import {
+  getRoundedWeight,
+  getPlatesOnBar,
+  getWorksetWeight,
+  getRoundedWeightKg
+} from "utils";
 import { useSelector, useDispatch } from "react-redux";
 import {
   Box,
@@ -90,6 +95,9 @@ function WarmupSetRow({ weight, id, percent, reps, sets, i }) {
   // const barbellWeight = useSelector(state => state.barbellWeight);
   const barbellWeight = units === "lbs" ? 44 : 20;
 
+  const workWeightByUnit =
+    units === "lbs" ? getRoundedWeight(weight) : getRoundedWeightKg(weight);
+
   return (
     <Grid key={id} my="4" gap={2} gridTemplateColumns="1fr 5fr 6fr">
       <Text
@@ -103,7 +111,7 @@ function WarmupSetRow({ weight, id, percent, reps, sets, i }) {
       <Text textAlign="center">
         <Flex flexDirection="column">
           <Text fontSize="xs" lineHeight="0" fontWeight="bold">
-            {getRoundedWeight(weight)}
+            {workWeightByUnit}
           </Text>
           <Text>
             {sets} x {reps} @{Math.round(percent * 100)}%
