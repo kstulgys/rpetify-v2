@@ -32,25 +32,25 @@ function getDefaultWarmups() {
           id: uuid(),
           sets: 1,
           reps: 8,
-          percent: 0.25
+          percent: 0.6
         },
         {
           id: uuid(),
           sets: 1,
           reps: 5,
-          percent: 0.5
+          percent: 0.75
         },
         {
           id: uuid(),
           sets: 1,
           reps: 3,
-          percent: 0.65
+          percent: 0.85
         },
         {
           id: uuid(),
           sets: 1,
           reps: 1,
-          percent: 0.8
+          percent: 0.95
         }
       ]
     }

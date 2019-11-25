@@ -1,28 +1,28 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { changeToKg, changeToLbs } from 'features/weight-units/slice'
-import { Box, Text, Flex, Grid, Switch, Link } from '@chakra-ui/core'
-import OneRMRow from './OneRMRow'
-import Variants from './Variants'
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { changeToKg, changeToLbs } from "features/weight-units/slice";
+import { Box, Text, Flex, Grid, Switch, Link } from "@chakra-ui/core";
+import OneRMRow from "./OneRMRow";
+import Variants from "./Variants";
 
 export default function SettingsContent() {
-  const oneRepMax = useSelector(state => state.oneRepMax)
+  const oneRepMax = useSelector(state => state.oneRepMax);
   return (
     <Box width="full" fontWeight="bold" color="gray.300">
       <SettingsHeader />
       <OneRMHeader />
       {oneRepMax.map(props => {
-        return <OneRMRow key={props.id} {...props} />
+        return <OneRMRow key={props.id} {...props} />;
       })}
       <Variants />
       <SettingsFooter />
     </Box>
-  )
+  );
 }
 
 function SettingsHeader() {
-  const dispatch = useDispatch()
-  const units = useSelector(state => state.units)
+  const dispatch = useDispatch();
+  const units = useSelector(state => state.units);
 
   return (
     <Box mb="4" mt="1">
@@ -34,15 +34,15 @@ function SettingsHeader() {
           ({units})
         </Text>
         <Switch
-          isChecked={units === 'lbs' ? true : false}
+          isChecked={units === "lbs" ? true : false}
           color="yellow"
           onChange={() => {
-            units === 'lbs' ? dispatch(changeToKg()) : dispatch(changeToLbs())
+            units === "lbs" ? dispatch(changeToKg()) : dispatch(changeToLbs());
           }}
         />
       </Flex>
     </Box>
-  )
+  );
 }
 
 function OneRMHeader() {
@@ -60,7 +60,7 @@ function OneRMHeader() {
       <Text textAlign="center">RPE</Text>
       <Text textAlign="center">oneRM</Text>
     </Grid>
-  )
+  );
 }
 
 function SettingsFooter() {
@@ -73,13 +73,12 @@ function SettingsFooter() {
         textAlign="center"
       >
         <Text mx="auto">
-          The reps, rpe and one rep max is saved to the phone's local storage.
-          Make sure you take a screenshot of your settings (one rep max) as the
-          backup.
+          Make sure you take screenshots of your one rep max weights. This app
+          is improving and there might be some breaking changes in the future.
         </Text>
         <Text mx="auto">
           If you find any bugs or have feature request e.g. custom plates on the
-          bar, custom warmup sets, etc. please send me an email at
+          bar, or custom warmup sets, please send me an email at
           <Link color="yellow.500" ml="1" textDecoration="underline">
             karolis.stulgys@gmail.com
           </Link>
@@ -94,7 +93,7 @@ function SettingsFooter() {
               mx="1"
               as="img"
               src="https://img.icons8.com/material/24/f6ad55/like--v1.png"
-            />{' '}
+            />{" "}
             <Box as="span">by</Box>
             <Link
               color="yellow.500"
@@ -110,5 +109,5 @@ function SettingsFooter() {
         </Text>
       </Flex>
     </Box>
-  )
+  );
 }

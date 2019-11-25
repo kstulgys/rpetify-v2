@@ -1,11 +1,11 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { Provider } from 'react-redux'
-import store from 'app/store'
-import { ThemeProvider, CSSReset, Box } from '@chakra-ui/core'
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import store from "app/store";
+import { ThemeProvider, CSSReset, Box } from "@chakra-ui/core";
 
 const render = () => {
-  const App = require('./app').default
+  const App = require("./app").default;
 
   ReactDOM.render(
     <Provider store={store}>
@@ -16,14 +16,14 @@ const render = () => {
         </Box>
       </ThemeProvider>
     </Provider>,
-    document.getElementById('root')
-  )
-}
+    document.getElementById("root")
+  );
+};
 
-render()
+render();
 
-if (process.env.NODE_ENV === 'development' && module.hot) {
-  module.hot.accept('./app', render)
+if (process.env.NODE_ENV === "development" && module.hot) {
+  module.hot.accept("./app/App", render);
 }
 
 // const rootElement = document.getElementById("root");
