@@ -1,11 +1,11 @@
-import { createSlice } from "redux-starter-kit";
-import uuid from "uuid/v4";
+import { createSlice } from 'redux-starter-kit'
+import uuid from 'uuid/v4'
 
 const warmupsSlice = createSlice({
-  slice: "warmups",
+  slice: 'warmups',
   initialState: { list: [...getDefaultWarmups()], current: 0 },
   reducers: {}
-});
+})
 
 // export const {
 //   // addWorkout,
@@ -15,7 +15,7 @@ const warmupsSlice = createSlice({
 //   // changeSet,
 //   // changeWorkoutName
 // } = warmupsSlice.actions;
-export default warmupsSlice.reducer;
+export default warmupsSlice.reducer
 
 function getDefaultWarmups() {
   return [
@@ -32,27 +32,27 @@ function getDefaultWarmups() {
           id: uuid(),
           sets: 1,
           reps: 8,
-          percent: 0.6
+          percent: 0.3
         },
         {
           id: uuid(),
           sets: 1,
           reps: 5,
-          percent: 0.75
+          percent: 0.5
         },
         {
           id: uuid(),
           sets: 1,
           reps: 3,
-          percent: 0.85
+          percent: 0.65
         },
         {
           id: uuid(),
           sets: 1,
           reps: 1,
-          percent: 0.95
+          percent: 0.8
         }
       ]
     }
-  ];
+  ]
 }
